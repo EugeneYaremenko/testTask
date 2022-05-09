@@ -5,7 +5,7 @@ const App: FC = () => {
     return (
         <>
             <Wrapper>
-               <p>app</p>
+               <p>qweapp</p>
             </Wrapper>
         </>
     );
