@@ -1,5 +1,24 @@
 @import "src/const/variables";
 
 .wrapper {
-  background-color: $background-color;
+  margin: 0 auto;
+  max-width: 360px;
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper{
+    max-width: 768px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .wrapper{
+    max-width: 1024px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .wrapper{
+    max-width: 1170px;
+  }
 }

@@ -7,15 +7,20 @@ $secondary-color: #00BDD3;
 $background-color: #F8F8F8;
 $grey-background-color: #D0CFCF;
 
+$button-hover-color: #FFE302;
+$button-disabled-color: #B4B4B4;
 
 $main-text-color: rgba(0, 0, 0, 0.87);
 $white-text-color: #FFFFFF;
 
-
-
-
-
-
-
-
-
+// for js
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  backgroundColor: $background-color;
+  grey-backgroundColor: $grey-background-color;
+  buttonHoverColor: $button-hover-color;
+  buttonDisabledColor: $button-disabled-color;
+  mainTextColor: $main-text-color;
+  whiteTextColor: $white-text-color;
+}

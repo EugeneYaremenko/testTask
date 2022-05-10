@@ -5,7 +5,7 @@ import {fetchUsers} from "../actions/UserActionCreators";
 
 
 interface IUsersInitialState {
-    users: Array<IUser>,
+    users: IUser[],
     isLoading: boolean,
     error: string,
 }
@@ -38,5 +38,3 @@ const usersSlice = createSlice({
 });
 
 export default usersSlice.reducer;
-
-export const {} = usersSlice.actions;

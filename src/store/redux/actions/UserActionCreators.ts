@@ -1,19 +1,21 @@
 import axios from "axios";
+import {baseUrl} from "../../../services/UserService";
 // redux
 import {createAsyncThunk} from "@reduxjs/toolkit";
 // types
 import {IUser} from "../../../types";
+import {IUserError} from "../../../types/errors";
 
 
 export const fetchUsers = createAsyncThunk(
-    'user/fetchAll',
+    'user/fetchUsers',
     async (_, thunkAPI) => {
         try {
-            const res = await axios.get<IUser[]>('');
+            const res = await axios.get<IUser[]>(baseUrl);
 
             return res.data;
-        } catch (e) {
-            return thunkAPI.rejectWithValue("error!")
+        } catch (e: IUserError | any) {
+            return thunkAPI.rejectWithValue(e.message)
         }
     }
 )
