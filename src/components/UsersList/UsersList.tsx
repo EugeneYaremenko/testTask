@@ -28,6 +28,7 @@ const UsersList: FC = () => {
                 ...notSortedUsers.sort((a, b) => b.registration_timestamp - a.registration_timestamp),
             ]
         });
+
         dispatch(setGlobalLoading(false));
     }, [data]);
 
