@@ -5,10 +5,12 @@ import {
 // rtk query
 import {userAPI} from "../../services/UserService";
 // slice
+import globalSlice from "./reducers/GlobalSlice";
 import userSlice from "./reducers/UsersSlice";
 
 
 const rootReducer = combineReducers({
+    globalSlice,
     userSlice,
     [userAPI.reducerPath]: userAPI.reducer,
 });
