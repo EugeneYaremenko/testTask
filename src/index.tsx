@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // styles
 import './index.scss';
+import "react-toastify/dist/ReactToastify.css";
 import {ThemeProvider} from "@mui/material/styles";
 import {defaultButtonTheme} from "./globals/GlobalCss";
 // redux

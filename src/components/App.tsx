@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
+import {ToastContainer} from "react-toastify";
 // redux
 import {useAppSelector} from "../hooks/redux";
 // components
+import GlobalLoadingSpinner from "./GlobalLoadingSpinner";
 import Wrapper from "./Wrapper";
 import NavBar from "./NavBar";
 import MainText from "./MainText";
 import UsersList from "./UsersList/UsersList";
-import {ToastContainer} from "react-toastify";
-import GlobalLoadingSpinner from "./GlobalLoadingSpiner";
-
+import SignUpForm from "./SignUpForm";
 
 
 const App: FC = () => {
@@ -20,6 +20,7 @@ const App: FC = () => {
                 <NavBar/>
                 <MainText/>
                 <UsersList/>
+                <SignUpForm/>
             </Wrapper>
             <ToastContainer/>
             <GlobalLoadingSpinner show={globalLoading}/>

@@ -1,4 +1,5 @@
 import {FC, useCallback, useEffect, useState} from "react";
+import {toast} from "react-toastify";
 // redux
 import {userAPI} from "../../services/UserService";
 import {useAppDispatch} from "../../hooks/redux";
@@ -31,6 +32,11 @@ const UsersList: FC = () => {
 
         dispatch(setGlobalLoading(false));
     }, [data]);
+
+    useEffect(() => {
+        // @ts-ignore
+        error && toast.error(error.error);
+    }, [error]);
 
     useEffect(() => {
         dispatch(setGlobalLoading(isLoading));

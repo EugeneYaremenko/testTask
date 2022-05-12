@@ -1,0 +1,22 @@
+.signUpForm {
+  padding: 0 16px 100px 16px;
+  text-align: center;
+
+  &__title {
+    padding-bottom: 50px;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  &__information {
+    list-style: none;
+  }
+
+  &__name, &__email, &__phone {
+    width: 328px;
+    height: 54px;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+  }
+}

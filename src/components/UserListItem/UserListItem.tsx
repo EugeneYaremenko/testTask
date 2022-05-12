@@ -1,6 +1,6 @@
 import {FC} from "react";
 // default img
-// import { ReactComponent as defaultImg } from '../../assets/svg/photo-cover.svg';
+import defaultImg from '../../assets/svg/photo-cover.svg';
 // styles
 import styles from './UserListItem.module.scss';
 // types
@@ -13,8 +13,9 @@ interface IUserListItemProps {
 const UserListItem: FC<IUserListItemProps> = ({user}) => {
     const {photo, email, position, name, phone} = user;
 
-    const addDefaultSrc = (e: any) => {
-        e.target.src = '';
+    const addDefaultProps = (e: any): void => {
+        e.target.src = defaultImg;
+        e.target.title = 'No avatar';
     }
 
     return (
@@ -22,8 +23,8 @@ const UserListItem: FC<IUserListItemProps> = ({user}) => {
             <div className={styles.userItem__photo}>
                 {
                     photo ?
-                        <img onError={addDefaultSrc} src={photo} alt={name}/> :
-                        <img src='../../assets/svg/photo-cover.svg' alt={name}/>
+                        <img onError={addDefaultProps} src={photo} alt={name} title={name}/> :
+                        <img src={defaultImg} alt='No avatar' title='No avatar'/>
                 }
             </div>
 
