@@ -1,3 +1,5 @@
+@import "src/const/variables";
+
 .signUpForm {
   padding: 0 16px 100px 16px;
   text-align: center;
@@ -13,10 +15,22 @@
     list-style: none;
   }
 
-  &__name, &__email, &__phone {
-    width: 328px;
-    height: 54px;
-    box-sizing: border-box;
-    margin-bottom: 50px;
+  &__input {
+
+    &::placeholder {
+      color: $grey-input-text-color;
+    }
+
+    input {
+      font-family: $main-font;
+      padding: 16px;
+    }
+  }
+
+  button {
+    width: 100px;
+    height: 34px;
   }
 }
+
+

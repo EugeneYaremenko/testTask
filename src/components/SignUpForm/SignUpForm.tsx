@@ -2,14 +2,42 @@ import {FC} from "react";
 import {useFormik} from 'formik';
 // styles
 import styles from './SignUpForm.module.scss';
+import styled from 'styled-components';
 // types
 import {signUpUserValidationSchema} from '../../schema/validation';
 // components
 import {Button, TextField} from "@mui/material";
 
 
+const StylesTextField = styled(TextField)`
+  & {
+    width: 328px;
+    height: 54px;
+  }
+
+  & .MuiOutlinedInput-notchedOutline {
+    bottom: 1px;
+    top: -13px;
+  }
+
+  & .MuiFormHelperText-root {
+    margin-top: 1px;
+    margin-left: 15px;
+    color: #7e7e7e;
+    letter-spacing: 0;
+    font-family: 'Nunito', sans-serif;;
+  }
+`;
+
+
 const SignUpForm: FC = () => {
-    const formik = useFormik({
+    const {
+        handleSubmit,
+        values,
+        handleChange,
+        touched,
+        errors
+    } = useFormik({
         initialValues: {
             name: '',
             email: '',
@@ -20,7 +48,6 @@ const SignUpForm: FC = () => {
             console.log(values);
         },
     });
-    const {handleSubmit, values, handleChange, touched, errors} = formik;
 
 
     return (
@@ -28,8 +55,9 @@ const SignUpForm: FC = () => {
             <h2 className={styles.signUpForm__title}>Working with POST request</h2>
 
             <form onSubmit={handleSubmit}>
-                <TextField
-                    className={styles.signUpForm__name}
+                <StylesTextField
+                    sx={{marginBottom: '50px'}}
+                    className={styles.signUpForm__input}
                     id="password"
                     type="text"
                     name="name"
@@ -40,8 +68,9 @@ const SignUpForm: FC = () => {
                     helperText={touched.name && errors.name}
                 />
 
-                <TextField
-                    className={styles.signUpForm__email}
+                <StylesTextField
+                    sx={{marginBottom: '50px'}}
+                    className={styles.signUpForm__input}
                     id="email"
                     type="email"
                     name="email"
@@ -51,8 +80,9 @@ const SignUpForm: FC = () => {
                     error={touched.email && Boolean(errors.email)}
                     helperText={touched.email && errors.email}
                 />
-                <TextField
-                    className={styles.signUpForm__phone}
+                <StylesTextField
+                    sx={{marginBottom: '43px'}}
+                    className={styles.signUpForm__input}
                     id="phone"
                     type="tel"
                     name="phone"
@@ -60,9 +90,9 @@ const SignUpForm: FC = () => {
                     value={values.phone}
                     onChange={handleChange}
                     error={touched.phone && Boolean(errors.phone)}
-                    helperText={touched.phone && errors.phone}
+                    helperText={touched.phone && errors.phone || '+38 (XXX) XXX - XX - XX'}
                 />
-                <Button type="submit">Submit</Button>
+                <Button disabled={true} type="submit">Submit</Button>
             </form>
         </section>
     )

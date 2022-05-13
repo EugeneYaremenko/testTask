@@ -1,4 +1,6 @@
-import {object, string, number} from 'yup';
+import {object, string} from 'yup';
+
+const phoneRegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
 
 
 export const signUpUserValidationSchema = object({
@@ -11,11 +13,10 @@ export const signUpUserValidationSchema = object({
         .min(5, 'Email should be of minimum 5 characters length')
         .max(50, 'Email should be of maximum 50 characters length')
         .required('Email is required'),
-    phone: number()
-        .typeError("That doesn't look like a phone number")
-        .positive("A Phone number can't start with a minus")
-        .integer("A Phone number can't include a decimal point")
-        .min(8, 'Phone number should be of minimum 8 characters length')
-        .min(30, 'Phone number should be of maximum 30 characters length')
-        .required('A Phone number is required'),
+    phone: string()
+        .required("Phone number is required")
+        .min(10, "Phone number should be of minimum 10 characters length")
+        .max(20, "Phone number should be of maximum 20 characters length")
+        .matches(phoneRegExp, "That doesn't look like a phone number"),
+
 });

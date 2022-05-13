@@ -12,6 +12,9 @@ export const defaultButtonTheme = createTheme({
                     backgroundColor: variables.primaryColor,
                     borderRadius: '80px',
                     textTransform: 'none',
+                    fontWeight: '400',
+                    fontSize: '16px',
+                    lineHeight: '26px',
                     cursor: 'pointer',
                     '&:hover': {
                         backgroundColor: variables.buttonHoverColor,
@@ -25,3 +28,6 @@ export const defaultButtonTheme = createTheme({
         }
     }
 });
+
+
+
