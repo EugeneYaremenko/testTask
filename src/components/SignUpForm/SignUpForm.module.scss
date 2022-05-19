@@ -9,6 +9,12 @@
     font-weight: 400;
     font-size: 40px;
     line-height: 40px;
+    color: $main-text-color;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
   }
 
   &__information {
@@ -30,7 +36,10 @@
   button {
     width: 100px;
     height: 34px;
+    margin: 0 auto;
   }
 }
+
+
 
 

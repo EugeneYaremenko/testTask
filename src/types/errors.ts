@@ -6,3 +6,8 @@ export interface IUserError {
         page: Array<string>,
     }
 }
+
+export interface IUserPositionsError {
+    success: boolean,
+    message: string,
+}

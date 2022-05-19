@@ -2,7 +2,12 @@ import variables from "../const/variables.scss";
 import {createTheme} from "@mui/material/styles";
 
 
-export const defaultButtonTheme = createTheme({
+export const defaultTheme = createTheme({
+    palette: {
+        secondary: {
+            main: variables.secondaryColor,
+        }
+    },
     components: {
         MuiButton: {
             styleOverrides: {
@@ -24,6 +29,14 @@ export const defaultButtonTheme = createTheme({
                         backgroundColor: variables.buttonDisabledColor,
                     },
                 }
+            }
+        },
+
+        MuiRadio: {
+            styleOverrides: {
+                root: {
+                    color: variables.greyBackgroundColor,
+                },
             }
         }
     }

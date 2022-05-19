@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 // types
-import {IUserFetchResponse} from "../types";
+import {IUserFetchResponse, IUsersPositionsResponse} from "../types";
 
 export const baseUrl: string = 'https://frontend-test-assignment-api.abz.agency/api/v1';
 
@@ -16,6 +16,11 @@ export const userAPI = createApi({
                     count: count,
                 }
             }),
-        })
+        }),
+        fetchUsersPositions: build.query<IUsersPositionsResponse, void>({
+            query: () => ({
+                url: '/positions',
+            }),
+        }),
     }),
 });

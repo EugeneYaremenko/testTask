@@ -1,15 +1,31 @@
-import {FC} from "react";
+import {ChangeEvent, FC, useEffect, useState} from "react";
+import {toast} from "react-toastify";
 import {useFormik} from 'formik';
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Input,
+    Radio,
+    RadioGroup,
+    TextField
+} from "@mui/material";
 // styles
 import styles from './SignUpForm.module.scss';
 import styled from 'styled-components';
+// redux
+import {userAPI} from "../../services/UserService";
+import {setGlobalLoading} from "../../store/redux/reducers/GlobalSlice";
+import {useAppDispatch} from "../../hooks/redux";
 // types
 import {signUpUserValidationSchema} from '../../schema/validation';
+import {IInitialInputValues, IUserPosition, UserPositions} from "../../types";
 // components
-import {Button, TextField} from "@mui/material";
 
 
-const StylesTextField = styled(TextField)`
+const StyledTextField = styled(TextField)`
   & {
     width: 328px;
     height: 54px;
@@ -25,40 +41,92 @@ const StylesTextField = styled(TextField)`
     margin-left: 15px;
     color: #7e7e7e;
     letter-spacing: 0;
-    font-family: 'Nunito', sans-serif;;
+    font-family: 'Nunito', sans-serif;
   }
+`;
+
+const StyledFormControl = styled(FormControl)`
+  & .MuiFormLabel-root {
+    padding-bottom: 11px;
+    line-height: 26px;
+    color: rgba(0, 0, 0, 0.87);
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  & .MuiTypography-root {
+    font-family: 'Nunito', sans-serif;
+  }
+
+  & .MuiFormLabel-root.Mui-focused {
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+,
 `;
 
 
 const SignUpForm: FC = () => {
+    const dispatch = useAppDispatch();
+    const {data, error, isLoading} = userAPI.useFetchUsersPositionsQuery();
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const [usersPositions, setUsersPositions] = useState<IUserPosition[] | []>([]);
     const {
         handleSubmit,
         values,
         handleChange,
         touched,
-        errors
+        errors,
+        setValues,
     } = useFormik({
         initialValues: {
             name: '',
             email: '',
             phone: '',
-        },
+            position: '',
+            position_id: 0,
+            photo: '',
+        } as IInitialInputValues,
         validationSchema: signUpUserValidationSchema,
         onSubmit: (values) => {
             console.log(values);
         },
     });
 
+    useEffect(() => {
+        data && setUsersPositions(prevState => {
+            return [
+                ...prevState,
+                ...data.positions,
+            ]
+        });
+
+        dispatch(setGlobalLoading(false));
+    }, [data]);
+
+    useEffect(() => {
+        // @ts-ignore
+        error && toast.error(error.error);
+    }, [error]);
+
+    console.log(usersPositions)
+
+    const setPositionValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setValues({
+            ...values,
+            position: e.target.value,
+        })
+    }
+
 
     return (
         <section className={styles.signUpForm}>
             <h2 className={styles.signUpForm__title}>Working with POST request</h2>
 
-            <form onSubmit={handleSubmit}>
-                <StylesTextField
+            <form className={styles.signUpForm__body} onSubmit={handleSubmit}>
+                <StyledTextField
                     sx={{marginBottom: '50px'}}
                     className={styles.signUpForm__input}
-                    id="password"
                     type="text"
                     name="name"
                     placeholder="Your name"
@@ -68,10 +136,9 @@ const SignUpForm: FC = () => {
                     helperText={touched.name && errors.name}
                 />
 
-                <StylesTextField
+                <StyledTextField
                     sx={{marginBottom: '50px'}}
                     className={styles.signUpForm__input}
-                    id="email"
                     type="email"
                     name="email"
                     placeholder="Email"
@@ -80,10 +147,9 @@ const SignUpForm: FC = () => {
                     error={touched.email && Boolean(errors.email)}
                     helperText={touched.email && errors.email}
                 />
-                <StylesTextField
+                <StyledTextField
                     sx={{marginBottom: '43px'}}
                     className={styles.signUpForm__input}
-                    id="phone"
                     type="tel"
                     name="phone"
                     placeholder="Phone"
@@ -92,7 +158,50 @@ const SignUpForm: FC = () => {
                     error={touched.phone && Boolean(errors.phone)}
                     helperText={touched.phone && errors.phone || '+38 (XXX) XXX - XX - XX'}
                 />
-                <Button disabled={true} type="submit">Submit</Button>
+
+                <StyledFormControl error={isSubmit && errors.position !== ''}>
+                    <FormLabel error={false}>Select your position</FormLabel>
+                    <RadioGroup
+                        onChange={setPositionValue}
+                        value={values.position}
+                    >
+                        <FormControlLabel
+                            value={UserPositions.FRONTEND_DEVELOPER}
+                            label={UserPositions.FRONTEND_DEVELOPER}
+                            control={<Radio color="secondary"/>}
+                        />
+
+                        <FormControlLabel
+                            value={UserPositions.BACKEND_DEVELOPER}
+                            label={UserPositions.BACKEND_DEVELOPER}
+                            control={<Radio color="secondary"/>}
+                        />
+
+                        <FormControlLabel
+                            value={UserPositions.DESIGNER}
+                            label={UserPositions.DESIGNER}
+                            control={<Radio color="secondary"/>}
+                        />
+
+                        <FormControlLabel
+                            value={UserPositions.QA}
+                            label={UserPositions.QA}
+                            control={<Radio color="secondary"/>}
+                        />
+
+                        <FormHelperText>{errors.position}</FormHelperText>
+                    </RadioGroup>
+                </StyledFormControl>
+
+                <label htmlFor="contained-button-file">
+                    <Input
+                        id="contained-button-file"
+                        type="file"
+                        placeholder='Upload your photo'/>
+                </label>
+
+
+                <Button onClick={() => setIsSubmit(true)} type="submit">Submit</Button>
             </form>
         </section>
     )

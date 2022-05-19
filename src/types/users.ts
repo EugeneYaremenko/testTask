@@ -9,6 +9,11 @@ export interface IUser {
     photo: string,
 }
 
+export interface IUserPosition {
+    id: string,
+    name: string,
+}
+
 export interface IUserFetchResponse {
     count: number,
     links: {
@@ -20,4 +25,9 @@ export interface IUserFetchResponse {
     total_pages: number,
     total_users: number,
     users: IUser[],
+}
+
+export interface IUsersPositionsResponse {
+    success: boolean,
+    positions: IUserPosition[],
 }
