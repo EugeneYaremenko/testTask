@@ -1,7 +1,7 @@
-import {object, string} from 'yup';
+import {mixed, object, string} from 'yup';
 
-const phoneSubValidation = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
-
+const phoneSubValidationRule = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
+const photoSupportedFormat = ["image/jpg", "image/jpeg"];
 
 export const signUpUserValidationSchema = object({
     name: string()
@@ -17,8 +17,16 @@ export const signUpUserValidationSchema = object({
         .required("Phone number is required")
         .min(2, "Phone number should be of minimum 10 characters length")
         .max(100, "Phone number should be of maximum 20 characters length")
-        .matches(phoneSubValidation, "That doesn't look like a phone number"),
+        .matches(phoneSubValidationRule, "That doesn't look like a phone number"),
     position: string()
+        .required("Please select position"),
+    photo: mixed()
         .nullable()
-        .required("Please select position")
+        .required("Photo is required")
+        .test("PHOTO_SIZE",
+            "Please upload a photo no larger than 5 MB",
+            (value) => !value || (value && value.size <= 5242880))
+        .test("PHOTO_FORMAT",
+            "File does not support. You must use .jpg or .jpeg",
+            (value) => !value || (value && photoSupportedFormat.includes(value?.type)))
 });

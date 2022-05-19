@@ -17,7 +17,7 @@ export interface IInitialInputValues {
     name: string,
     email: string,
     phone: string,
-    position: null | UserPositions,
-    position_id: number | null,
+    position: string,
+    position_id: number,
     photo: string,
 }

@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, useEffect, useState} from "react";
+import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import {useFormik} from 'formik';
 import {
@@ -7,7 +7,6 @@ import {
     FormControlLabel,
     FormHelperText,
     FormLabel,
-    Input,
     Radio,
     RadioGroup,
     TextField
@@ -72,8 +71,9 @@ const StyledFormControl = styled(FormControl)`
 
 const SignUpForm: FC = () => {
     const dispatch = useAppDispatch();
+    const fileRef = useRef<any>(null);
+    const [test, setTest] = useState<any>(null);
     const {data, error, isLoading} = userAPI.useFetchUsersPositionsQuery();
-    const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [usersPositions, setUsersPositions] = useState<IUserPosition[] | []>([]);
 
     const {
@@ -83,20 +83,31 @@ const SignUpForm: FC = () => {
         touched,
         errors,
         setValues,
+        setFieldValue,
+        dirty
     } = useFormik({
         initialValues: {
             name: '',
             email: '',
             phone: '',
-            position: null,
+            position: '',
             position_id: 0,
             photo: '',
         } as IInitialInputValues,
         validationSchema: signUpUserValidationSchema,
-        onSubmit: (values) => {
-            console.log(values);
+        validateOnBlur: false,
+        validateOnChange: false,
+        onSubmit: (values, actions) => {
+            actions.validateForm(values)
+                .then(() => setTest(values))
+                .then(() => setTest(null))
+                .catch(() => toast.error('Something went wrong please try again'));
+
+            actions.resetForm();
         },
     });
+
+    console.log(test)
 
     useEffect(() => {
         data && setUsersPositions(prevState => {
@@ -129,11 +140,21 @@ const SignUpForm: FC = () => {
         })
     }
 
+    const uploadUserPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files !== null) {
+            setFieldValue('photo', e.target?.files[0])
+        }
+    }
+
+
     return (
         <section className={styles.signUpForm}>
             <h2 className={styles.signUpForm__title}>Working with POST request</h2>
 
-            <form className={styles.signUpForm__body} onSubmit={handleSubmit}>
+            <form
+                className={styles.signUpForm__body}
+                onSubmit={handleSubmit}
+            >
                 <StyledTextField
                     sx={{marginBottom: '50px'}}
                     className={styles.signUpForm__input}
@@ -169,7 +190,7 @@ const SignUpForm: FC = () => {
                     helperText={touched.phone && errors.phone || '+38 (XXX) XXX - XX - XX'}
                 />
 
-                <StyledFormControl error={isSubmit && errors.position !== ''}>
+                <StyledFormControl error={touched.position && Boolean(errors.position)}>
                     <FormLabel error={false}>Select your position</FormLabel>
                     <RadioGroup
                         onChange={setPositionValue}
@@ -203,15 +224,32 @@ const SignUpForm: FC = () => {
                     </RadioGroup>
                 </StyledFormControl>
 
-                <label htmlFor="contained-button-file">
-                    <Input
-                        id="contained-button-file"
-                        type="file"
-                        placeholder='Upload your photo'/>
-                </label>
+                <div className={styles.upload}>
+                    <label>
+                        <div className={styles.upload__button}>Upload</div>
+                        <input
+                            type="file"
+                            onChange={uploadUserPhoto}
+                            onClick={fileRef.current?.click()}
+                        />
+                    </label>
+
+                    <div className={styles.upload__placeholder} title={values.photo.name || ''}>
+                        {values.photo.name ? values.photo.name : 'Upload your photo'}
+                    </div>
+
+                    <FormHelperText
+                        className={styles.upload__errorText}
+                        error={Boolean(errors.photo)}>{errors.photo}</FormHelperText>
+                </div>
 
 
-                <Button onClick={() => setIsSubmit(true)} type="submit">Submit</Button>
+                <Button
+                    type="submit"
+                    disabled={!dirty}
+                >
+                    Submit
+                </Button>
             </form>
         </section>
     )
