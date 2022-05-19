@@ -46,6 +46,10 @@ const StyledTextField = styled(TextField)`
 `;
 
 const StyledFormControl = styled(FormControl)`
+  & .MuiFormGroup-root {
+    padding-bottom: 47px;
+  }
+
   & .MuiFormLabel-root {
     padding-bottom: 11px;
     line-height: 26px;
@@ -71,6 +75,7 @@ const SignUpForm: FC = () => {
     const {data, error, isLoading} = userAPI.useFetchUsersPositionsQuery();
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [usersPositions, setUsersPositions] = useState<IUserPosition[] | []>([]);
+
     const {
         handleSubmit,
         values,
@@ -83,7 +88,7 @@ const SignUpForm: FC = () => {
             name: '',
             email: '',
             phone: '',
-            position: '',
+            position: null,
             position_id: 0,
             photo: '',
         } as IInitialInputValues,
@@ -109,15 +114,20 @@ const SignUpForm: FC = () => {
         error && toast.error(error.error);
     }, [error]);
 
-    console.log(usersPositions)
+    useEffect(() => {
+        dispatch(setGlobalLoading(isLoading));
+    }, [isLoading]);
 
     const setPositionValue = (e: ChangeEvent<HTMLInputElement>) => {
+        const selectedPositionId: number =
+            Number(usersPositions.find((item: IUserPosition) => item?.name === e.target.value)?.id);
+
         setValues({
             ...values,
             position: e.target.value,
+            position_id: selectedPositionId,
         })
     }
-
 
     return (
         <section className={styles.signUpForm}>
@@ -166,26 +176,26 @@ const SignUpForm: FC = () => {
                         value={values.position}
                     >
                         <FormControlLabel
-                            value={UserPositions.FRONTEND_DEVELOPER}
-                            label={UserPositions.FRONTEND_DEVELOPER}
+                            value={UserPositions.LAWYER}
+                            label={UserPositions.LAWYER}
                             control={<Radio color="secondary"/>}
                         />
 
                         <FormControlLabel
-                            value={UserPositions.BACKEND_DEVELOPER}
-                            label={UserPositions.BACKEND_DEVELOPER}
+                            value={UserPositions.CONTENT_MANAGER}
+                            label={UserPositions.CONTENT_MANAGER}
+                            control={<Radio color="secondary"/>}
+                        />
+
+                        <FormControlLabel
+                            value={UserPositions.SECURITY}
+                            label={UserPositions.SECURITY}
                             control={<Radio color="secondary"/>}
                         />
 
                         <FormControlLabel
                             value={UserPositions.DESIGNER}
                             label={UserPositions.DESIGNER}
-                            control={<Radio color="secondary"/>}
-                        />
-
-                        <FormControlLabel
-                            value={UserPositions.QA}
-                            label={UserPositions.QA}
                             control={<Radio color="secondary"/>}
                         />
 

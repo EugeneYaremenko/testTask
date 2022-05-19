@@ -1,6 +1,6 @@
 import {object, string} from 'yup';
 
-const phoneRegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
+const phoneSubValidation = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
 
 
 export const signUpUserValidationSchema = object({
@@ -17,7 +17,8 @@ export const signUpUserValidationSchema = object({
         .required("Phone number is required")
         .min(2, "Phone number should be of minimum 10 characters length")
         .max(100, "Phone number should be of maximum 20 characters length")
-        .matches(phoneRegExp, "That doesn't look like a phone number"),
+        .matches(phoneSubValidation, "That doesn't look like a phone number"),
     position: string()
+        .nullable()
         .required("Please select position")
 });

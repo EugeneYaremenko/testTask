@@ -1,8 +1,15 @@
+// export enum UserPositions {
+//     FRONTEND_DEVELOPER = "Frontend developer",
+//     BACKEND_DEVELOPER = "Backend developer",
+//     DESIGNER = "Designer",
+//     QA = "QA",
+// }
+
 export enum UserPositions {
-    FRONTEND_DEVELOPER = "Frontend developer",
-    BACKEND_DEVELOPER = "Backend developer",
+    LAWYER = "Lawyer",
+    CONTENT_MANAGER = "Content manager",
+    SECURITY = "Security",
     DESIGNER = "Designer",
-    QA = "QA",
 }
 
 
@@ -10,7 +17,7 @@ export interface IInitialInputValues {
     name: string,
     email: string,
     phone: string,
-    position: string,
+    position: null | UserPositions,
     position_id: number | null,
     photo: string,
-};
+}
