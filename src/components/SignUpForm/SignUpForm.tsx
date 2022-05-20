@@ -1,16 +1,6 @@
 import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
-import {toast} from "react-toastify";
 import {useFormik} from 'formik';
-import {
-    Button,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    TextField
-} from "@mui/material";
+import {toast} from "react-toastify";
 // styles
 import styles from './SignUpForm.module.scss';
 import styled from 'styled-components';
@@ -22,11 +12,20 @@ import {useAppDispatch} from "../../hooks/redux";
 import {signUpUserValidationSchema} from '../../schema/validation';
 import {IInitialInputValues, IUserPosition, UserPositions} from "../../types";
 // components
-
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField
+} from "@mui/material";
 
 const StyledTextField = styled(TextField)`
   & {
-    width: 328px;
+    width: 100%;
     height: 54px;
   }
 
@@ -46,18 +45,22 @@ const StyledTextField = styled(TextField)`
 
 const StyledFormControl = styled(FormControl)`
   & .MuiFormGroup-root {
-    padding-bottom: 47px;
+    padding-bottom: 42px;
   }
 
   & .MuiFormLabel-root {
-    padding-bottom: 11px;
     line-height: 26px;
     color: rgba(0, 0, 0, 0.87);
     text-align: left;
     font-family: 'Nunito', sans-serif;
   }
 
+  & .MuiRadio-root {
+    padding-bottom: 1px;
+  }
+
   & .MuiTypography-root {
+    padding-top: 7px;
     font-family: 'Nunito', sans-serif;
   }
 
@@ -149,7 +152,7 @@ const SignUpForm: FC = () => {
 
     return (
         <section className={styles.signUpForm}>
-            <h2 className={styles.signUpForm__title}>Working with POST request</h2>
+            <h2 id="signUpForm" className={styles.signUpForm__title}>Working with POST request</h2>
 
             <form
                 className={styles.signUpForm__body}
@@ -248,7 +251,7 @@ const SignUpForm: FC = () => {
                     type="submit"
                     disabled={!dirty}
                 >
-                    Submit
+                    Sign up
                 </Button>
             </form>
         </section>

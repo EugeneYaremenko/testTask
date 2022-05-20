@@ -5,9 +5,10 @@
   height: 500px;
   padding: 40px 16px 71px 16px;
   text-align: center;
-  background: linear-gradient(0deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
-  url("../../assets/img/pexels-alexandr-podvalny-1227513-min.jpeg") no-repeat center;
-  background-size: cover;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+  url("../../assets/img/pexels-alexandr-podvalny-1227513-min.jpeg") no-repeat;
+  background-size: 1240px 810px;
+  background-position: center bottom;
 
   &__title {
     font-size: 40px;
@@ -31,6 +32,7 @@
 @media only screen and (min-width: 768px) {
   .mainText{
     padding: 89px 194px 88px 194px;
+    background-size: 2700px 810px;
   }
 }
 
@@ -38,6 +40,7 @@
   .mainText{
     height: 650px;
     padding: 164px 322px 163px 322px;
+    background-size: 3650px 1060px;
   }
 }
 
@@ -45,5 +48,7 @@
   .mainText{
     height: 650px;
     padding: 164px 395px 163px 395px;
+    background-size: 215%;
+    background-position-y: 80%;
   }
 }

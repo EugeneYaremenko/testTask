@@ -22,6 +22,7 @@ const App: FC = () => {
                 <UsersList/>
                 <SignUpForm/>
             </Wrapper>
+
             <ToastContainer/>
             <GlobalLoadingSpinner show={globalLoading}/>
         </>

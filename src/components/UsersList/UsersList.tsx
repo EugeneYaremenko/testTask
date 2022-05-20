@@ -50,7 +50,7 @@ const UsersList: FC = () => {
 
     return (
         <section className={styles.usersList}>
-            <h2 className={styles.usersList__title}>Working with GET request</h2>
+            <h2 id="users" className={styles.usersList__title}>Working with GET request</h2>
 
             <ul className={styles.usersList__cards}>
                 {sortedUsers.map(user => <UserListItem key={user.id} user={user}/>)}

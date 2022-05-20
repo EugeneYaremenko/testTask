@@ -32,4 +32,22 @@
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .navBar{
+    padding: 13px 32px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .navBar{
+    padding: 13px 60px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .navBar{
+    padding: 13px 0;
+  }
+}
+
 

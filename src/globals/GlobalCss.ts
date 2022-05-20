@@ -17,9 +17,11 @@ export const defaultTheme = createTheme({
                     backgroundColor: variables.primaryColor,
                     borderRadius: '80px',
                     textTransform: 'none',
+                    fontFamily: variables.mainFont,
                     fontWeight: '400',
                     fontSize: '16px',
                     lineHeight: '26px',
+                    letterSpacing: 0,
                     cursor: 'pointer',
                     '&:hover': {
                         backgroundColor: variables.buttonHoverColor,

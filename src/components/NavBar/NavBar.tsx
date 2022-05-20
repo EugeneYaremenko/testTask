@@ -1,9 +1,9 @@
-import {FC} from "react"
+import {FC} from "react";
 // styles
 import styles from "./NavBar.module.scss";
 // components
 import {Button} from "@mui/material";
-
+import {Link} from 'react-scroll';
 
 const NavBar: FC = () => {
     return (
@@ -12,8 +12,21 @@ const NavBar: FC = () => {
                 <div className={styles.navigation__logo}></div>
 
                 <div className={styles.navigation__buttons}>
-                    <Button>Users</Button>
-                    <Button>Sign up</Button>
+                    <Link
+                        to="users"
+                        spy={true}
+                        smooth={true}
+                        duration={500}>
+                        <Button>Users</Button>
+                    </Link>
+
+                    <Link
+                        to="signUpForm"
+                        spy={true}
+                        smooth={true}
+                        duration={500}>
+                        <Button>Sign up</Button>
+                    </Link>
                 </div>
             </nav>
         </header>

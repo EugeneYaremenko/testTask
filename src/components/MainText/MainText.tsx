@@ -3,6 +3,7 @@ import React, {FC} from "react";
 import styles from "./MainText.module.scss";
 // components
 import {Button} from "@mui/material";
+import {Link} from "react-scroll";
 
 const MainText: FC = () => {
     return (
@@ -15,7 +16,14 @@ const MainText: FC = () => {
                 They should also be excited to learn, as the world of Front-End Development keeps evolving.
             </p>
 
-            <Button>Sign up</Button>
+
+            <Link
+                to="signUpForm"
+                spy={true}
+                smooth={true}
+                duration={500}>
+                <Button>Sign up</Button>
+            </Link>
         </section>
     )
 };
