@@ -104,6 +104,7 @@ const SignUpForm: FC = () => {
             actions.validateForm(values)
                 .then(() => setTest(values))
                 .then(() => setTest(null))
+                .then(() => toast.success('Sign up is successful!'))
                 .catch(() => toast.error('Something went wrong please try again'));
 
             actions.resetForm();
@@ -113,14 +114,18 @@ const SignUpForm: FC = () => {
     console.log(test)
 
     useEffect(() => {
-        data && setUsersPositions(prevState => {
-            return [
-                ...prevState,
-                ...data.positions,
-            ]
-        });
+        if (data) {
+            const sortedUsersPositions = data?.positions.slice().sort((a, b) => a.id - b.id);
 
-        dispatch(setGlobalLoading(false));
+            setUsersPositions(prevState => {
+                return [
+                    ...prevState,
+                    ...sortedUsersPositions,
+                ]
+            });
+
+            dispatch(setGlobalLoading(false));
+        }
     }, [data]);
 
     useEffect(() => {
@@ -199,30 +204,12 @@ const SignUpForm: FC = () => {
                         onChange={setPositionValue}
                         value={values.position}
                     >
-                        <FormControlLabel
-                            value={UserPositions.LAWYER}
-                            label={UserPositions.LAWYER}
+                        {usersPositions.map(item => <FormControlLabel
+                            key={item.id}
+                            value={item.name}
+                            label={item.name}
                             control={<Radio color="secondary"/>}
-                        />
-
-                        <FormControlLabel
-                            value={UserPositions.CONTENT_MANAGER}
-                            label={UserPositions.CONTENT_MANAGER}
-                            control={<Radio color="secondary"/>}
-                        />
-
-                        <FormControlLabel
-                            value={UserPositions.SECURITY}
-                            label={UserPositions.SECURITY}
-                            control={<Radio color="secondary"/>}
-                        />
-
-                        <FormControlLabel
-                            value={UserPositions.DESIGNER}
-                            label={UserPositions.DESIGNER}
-                            control={<Radio color="secondary"/>}
-                        />
-
+                        />)}
                         <FormHelperText>{errors.position}</FormHelperText>
                     </RadioGroup>
                 </StyledFormControl>

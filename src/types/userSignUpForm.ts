@@ -5,12 +5,12 @@
 //     QA = "QA",
 // }
 
-export enum UserPositions {
-    LAWYER = "Lawyer",
-    CONTENT_MANAGER = "Content manager",
-    SECURITY = "Security",
-    DESIGNER = "Designer",
-}
+// export enum UserPositions {
+//     LAWYER = "Lawyer",
+//     CONTENT_MANAGER = "Content manager",
+//     SECURITY = "Security",
+//     DESIGNER = "Designer",
+// }
 
 
 export interface IInitialInputValues {
