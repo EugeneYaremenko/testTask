@@ -215,18 +215,20 @@ const SignUpForm: FC = () => {
                 </StyledFormControl>
 
                 <div className={styles.upload}>
-                    <label>
-                        <div className={styles.upload__button}>Upload</div>
-                        <input
-                            type="file"
-                            onChange={uploadUserPhoto}
-                            onClick={fileRef.current?.click()}
-                        />
-                    </label>
+                    <input
+                        id="upload_btn"
+                        type="file"
+                        onChange={uploadUserPhoto}
+                        onClick={fileRef.current?.click()}
+                    />
 
-                    <div className={styles.upload__placeholder} title={values.photo.name || ''}>
-                        {values.photo.name ? values.photo.name : 'Upload your photo'}
-                    </div>
+                    <label htmlFor="upload_btn">
+                        <div className={styles.upload__button}>Upload</div>
+
+                        <div className={styles.upload__placeholder} title={values.photo.name || ''}>
+                            {values.photo.name ? values.photo.name : 'Upload your photo'}
+                        </div>
+                    </label>
 
                     <FormHelperText
                         className={styles.upload__errorText}
