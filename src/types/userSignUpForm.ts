@@ -12,6 +12,15 @@
 //     DESIGNER = "Designer",
 // }
 
+export interface IUploadPhotoFile {
+    lastModified: number,
+    lastModifiedDate: Date,
+    name: string,
+    size: number,
+    type: string,
+    webkitRelativePath: string,
+}
+
 
 export interface IInitialInputValues {
     name: string,
@@ -19,5 +28,5 @@ export interface IInitialInputValues {
     phone: string,
     position: string,
     position_id: number,
-    photo: string,
+    photo: string | IUploadPhotoFile,
 }

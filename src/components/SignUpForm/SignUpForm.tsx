@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import styles from './SignUpForm.module.scss';
 import styled from 'styled-components';
 // redux
+import {authAPI} from "../../services/AuthService";
 import {userAPI} from "../../services/UserService";
 import {setGlobalLoading} from "../../store/redux/reducers/GlobalSlice";
 import {useAppDispatch} from "../../hooks/redux";
@@ -22,6 +23,7 @@ import {
     RadioGroup,
     TextField
 } from "@mui/material";
+
 
 const StyledTextField = styled(TextField)`
   & {
@@ -76,6 +78,7 @@ const SignUpForm: FC = () => {
     const dispatch = useAppDispatch();
     const fileRef = useRef<any>(null);
     const [test, setTest] = useState<any>(null);
+    const {data: token} = authAPI.useGetAuthTokenQuery();
     const {data, error, isLoading} = userAPI.useFetchUsersPositionsQuery();
     const [usersPositions, setUsersPositions] = useState<IUserPosition[] | []>([]);
 
@@ -104,14 +107,14 @@ const SignUpForm: FC = () => {
             actions.validateForm(values)
                 .then(() => setTest(values))
                 .then(() => setTest(null))
-                .then(() => toast.success('Sign up is successful!'))
+                .then(() => toast.success('User successfully registered'))
                 .catch(() => toast.error('Something went wrong please try again'));
 
             actions.resetForm();
         },
     });
 
-    console.log(test)
+    console.log(token)
 
     useEffect(() => {
         if (data) {
@@ -225,8 +228,8 @@ const SignUpForm: FC = () => {
                     <label htmlFor="upload_btn">
                         <div className={styles.upload__button}>Upload</div>
 
-                        <div className={styles.upload__placeholder} title={values.photo.name || ''}>
-                            {values.photo.name ? values.photo.name : 'Upload your photo'}
+                        <div className={styles.upload__placeholder} title={values.photo?.name || ''}>
+                            {values.photo?.name ? values.photo?.name : 'Upload your photo'}
                         </div>
                     </label>
 

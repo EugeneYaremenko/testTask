@@ -4,15 +4,19 @@ import {
 } from '@reduxjs/toolkit'
 // rtk query
 import {userAPI} from "../../services/UserService";
-// slice
+import {authAPI} from "../../services/AuthService";
+// slices
 import globalSlice from "./reducers/GlobalSlice";
 import userSlice from "./reducers/UsersSlice";
+import authSlice from "./reducers/AuthSlice";
 
 
 const rootReducer = combineReducers({
     globalSlice,
     userSlice,
+    authSlice,
     [userAPI.reducerPath]: userAPI.reducer,
+    [authAPI.reducerPath]: authAPI.reducer,
 });
 
 export const setupStore = () => {
