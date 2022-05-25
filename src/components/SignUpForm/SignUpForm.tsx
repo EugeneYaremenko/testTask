@@ -6,7 +6,7 @@ import styles from './SignUpForm.module.scss';
 import styled from 'styled-components';
 // redux
 import {userAPI} from "../../store/redux/services/UserService";
-import {setGlobalLoading} from "../../store/redux/reducers/GlobalSlice";
+import {setGlobalLoading, setUsersPage} from "../../store/redux/reducers/GlobalSlice";
 import {useAppDispatch} from "../../hooks/redux";
 // types
 import {signUpUserValidationSchema} from '../../schema/validation';
@@ -178,7 +178,7 @@ const SignUpForm: FC = () => {
                     setUserData(null);
                     resetForm();
                     refetch();
-
+                    dispatch(setUsersPage(1));
                     return res;
                 }
             } catch (e: any) {

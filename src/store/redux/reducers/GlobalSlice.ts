@@ -4,12 +4,14 @@ interface IGlobalInitialState {
     globalLoading: boolean,
     globalError: string | null,
     token: string | null,
+    usersPage: number,
 }
 
 const initialGlobalState: IGlobalInitialState = {
     globalLoading: false,
     globalError: null,
     token: null,
+    usersPage: 1,
 };
 
 
@@ -26,9 +28,12 @@ const globalSlice = createSlice({
         setAuthToken(state, action: PayloadAction<string>) {
             state.token = action.payload;
         },
+        setUsersPage(state, action: PayloadAction<number>) {
+            state.usersPage = action.payload;
+        },
     }
 });
 
 export default globalSlice.reducer;
 
-export const {setGlobalLoading, setGlobalError, setAuthToken} = globalSlice.actions;
+export const {setGlobalLoading, setGlobalError, setAuthToken, setUsersPage} = globalSlice.actions;
