@@ -15,7 +15,7 @@ export const signUpUserValidationSchema = object({
         .required('Email is required'),
     phone: string()
         .required("Phone number is required")
-        .min(10, "Phone number should be of minimum 13 characters length")
+        .min(13, "Phone number should be of minimum 13 characters length")
         .max(13, "Phone number should be of maximum 13 characters length")
         .matches(phoneSubValidationRule, "That doesn't look like a phone number"),
     position: string()

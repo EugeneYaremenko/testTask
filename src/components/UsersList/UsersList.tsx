@@ -22,12 +22,17 @@ const UsersList: FC = () => {
 
     const getSortedUsers = useCallback(() => {
         data && setSortedUsers(prevState => {
-            const notSortedUsers = [...data.users];
+            const notSortedUsers = page === 1 ?
+                [...data.users] :
 
-            return [
-                ...prevState,
-                ...notSortedUsers.sort((a, b) => b.registration_timestamp - a.registration_timestamp),
-            ]
+                [...prevState,
+                    ...data.users];
+
+            const newSortedUsers = notSortedUsers
+                .sort((a, b) =>
+                    b.registration_timestamp - a.registration_timestamp);
+
+            return newSortedUsers;
         });
     }, [data]);
 
@@ -57,7 +62,7 @@ const UsersList: FC = () => {
             <h2 id="users" className={styles.usersList__title}>Working with GET request</h2>
 
             <ul className={styles.usersList__cards}>
-                {sortedUsers.map((user) => <UserListItem key={user.id} user={user}/>)}
+                {sortedUsers.map((user) => <UserListItem key={user.registration_timestamp} user={user}/>)}
             </ul>
 
             {data?.total_pages !== page && <Button onClick={fetchNextUsers}>Show more</Button>}

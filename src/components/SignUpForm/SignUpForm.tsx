@@ -176,10 +176,13 @@ const SignUpForm: FC = () => {
                 if ('data' in res) {
                     toast.success('User successfully registered');
                     setUserData(null);
+                    resetForm();
+                    refetch();
+
+                    return res;
                 }
             } catch (e: any) {
                 console.error(e);
-                setUserData(null);
 
                 if (e.message) {
                     toast.error(e.message);
@@ -222,14 +225,7 @@ const SignUpForm: FC = () => {
     }, [isLoading, createNewUserLoading]);
 
     useEffect(() => {
-        addNewUser()
-            .then(() => {
-                if (!createNewUserError) {
-                    setUserData(null);
-                    resetForm();
-                    refetch();
-                }
-            })
+        addNewUser().catch(console.error);
     }, [userData]);
 
 
