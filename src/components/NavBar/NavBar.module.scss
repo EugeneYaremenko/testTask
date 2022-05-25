@@ -1,0 +1,53 @@
+@import "src/const/variables";
+
+.navBar {
+  margin: 0 auto;
+  padding: 13px 16px;
+  background-color: $white-text-color;
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__logo {
+      width: 104px;
+      height: 26px;
+      background: url("../../assets/svg/Logo.svg") no-repeat center;
+      background-size: cover;
+      cursor: pointer;
+    }
+
+    &__buttons {
+      width: 210px;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        width: 100px;
+        height: 34px;
+      }
+    }
+
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .navBar{
+    padding: 13px 32px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .navBar{
+    padding: 13px 60px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .navBar{
+    padding: 13px 0;
+  }
+}
+
+

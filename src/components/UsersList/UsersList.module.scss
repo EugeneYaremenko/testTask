@@ -1,0 +1,58 @@
+@import "src/const/variables";
+
+.usersList {
+  text-align: center;
+  padding: 140px 16px;
+  background-color: $background-color;
+
+  &__title {
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 40px;
+    padding-bottom: 50px;
+  }
+
+  &__cards {
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style: none;
+  }
+
+  button {
+    width: 120px;
+    height: 34px;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .usersList {
+    padding: 140px 32px;
+
+    &__cards {
+      flex-direction: row;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .usersList {
+    padding: 140px 60px;
+
+    &__cards {
+      flex-direction: row;
+      gap: 29px;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .usersList {
+    padding: 140px 0;
+  }
+}

@@ -1,0 +1,52 @@
+@import "src/const/variables";
+
+.userItem {
+  width: 328px;
+  height: 254px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: $white-text-color;
+
+  &__photo {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+
+    img {
+      border-radius: 50%;
+    }
+  }
+
+  .userItemInfo {
+    width: 100%;
+
+    p {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    &__name {
+      padding: 20px 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .userItem{
+    width: 344px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .userItem{
+    width: 282px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .userItem{
+    width: 370px;
+  }
+}

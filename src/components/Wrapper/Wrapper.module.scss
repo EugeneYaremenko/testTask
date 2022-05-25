@@ -1,0 +1,25 @@
+@import "src/const/variables";
+
+.wrapper {
+  margin: 0 auto;
+  padding-bottom: 191px;
+  max-width: 360px;
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper{
+    max-width: 768px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .wrapper{
+    max-width: 1024px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .wrapper{
+    max-width: 1170px;
+  }
+}
