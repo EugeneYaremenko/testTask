@@ -1,10 +1,13 @@
-export interface IUserError {
-    success: boolean,
-    message: string,
-    fails: {
-        count: Array<string>,
-        page: Array<string>,
-    }
+export interface IUserRegistrationError {
+    data: {
+        success: boolean,
+        message: string,
+        fails?: {
+            count: Array<string>,
+            page: Array<string>,
+        }
+    },
+    status: number,
 }
 
 export interface IUserPositionsError {

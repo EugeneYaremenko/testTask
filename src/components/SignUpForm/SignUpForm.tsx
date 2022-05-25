@@ -1,17 +1,20 @@
-import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
+import {ChangeEvent, FC, useCallback, useEffect, useRef, useState} from "react";
 import {useFormik} from 'formik';
 import {toast} from "react-toastify";
 // styles
 import styles from './SignUpForm.module.scss';
 import styled from 'styled-components';
 // redux
-import {authAPI} from "../../services/AuthService";
-import {userAPI} from "../../services/UserService";
+import {userAPI} from "../../store/redux/services/UserService";
 import {setGlobalLoading} from "../../store/redux/reducers/GlobalSlice";
 import {useAppDispatch} from "../../hooks/redux";
 // types
 import {signUpUserValidationSchema} from '../../schema/validation';
-import {IInitialInputValues, IUserPosition, UserPositions} from "../../types";
+import {
+    IInitialInputValues,
+    IUserPosition,
+    IUserRegistrationRequest,
+} from "../../types";
 // components
 import {
     Button,
@@ -77,10 +80,15 @@ const StyledFormControl = styled(FormControl)`
 const SignUpForm: FC = () => {
     const dispatch = useAppDispatch();
     const fileRef = useRef<any>(null);
-    const [test, setTest] = useState<any>(null);
-    const {data: token} = authAPI.useGetAuthTokenQuery();
-    const {data, error, isLoading} = userAPI.useFetchUsersPositionsQuery();
+    const [userData, setUserData] = useState<IUserRegistrationRequest | null>(null);
+    const {data, error: fetchUsersPositionsError, isLoading} = userAPI.useFetchUsersPositionsQuery();
+    const {refetch} = userAPI.useFetchUsersQuery({page: 1, count: 6});
+    const [registrationNewUser, {
+        isLoading: createNewUserLoading,
+        error: createNewUserError,
+    }] = userAPI.useRegistrationNewUserMutation();
     const [usersPositions, setUsersPositions] = useState<IUserPosition[] | []>([]);
+
 
     const {
         handleSubmit,
@@ -90,7 +98,8 @@ const SignUpForm: FC = () => {
         errors,
         setValues,
         setFieldValue,
-        dirty
+        dirty,
+        resetForm,
     } = useFormik({
         initialValues: {
             name: '',
@@ -98,27 +107,28 @@ const SignUpForm: FC = () => {
             phone: '',
             position: '',
             position_id: 0,
-            photo: '',
+            photo: null,
         } as IInitialInputValues,
         validationSchema: signUpUserValidationSchema,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: (values, actions) => {
             actions.validateForm(values)
-                .then(() => setTest(values))
-                .then(() => setTest(null))
-                .then(() => toast.success('User successfully registered'))
+                .then(() => setUserData({
+                    name: values.name,
+                    email: values.email,
+                    phone: values.phone,
+                    position_id: Number(values.position_id),
+                    photo: values.photo,
+                }))
                 .catch(() => toast.error('Something went wrong please try again'));
-
-            actions.resetForm();
         },
     });
 
-    console.log(token)
 
-    useEffect(() => {
+    const getUsersPositions = useCallback(() => {
         if (data) {
-            const sortedUsersPositions = data?.positions.slice().sort((a, b) => a.id - b.id);
+            const sortedUsersPositions = data?.positions.slice().sort((a: any, b: any) => a.id - b.id);
 
             setUsersPositions(prevState => {
                 return [
@@ -126,19 +136,8 @@ const SignUpForm: FC = () => {
                     ...sortedUsersPositions,
                 ]
             });
-
-            dispatch(setGlobalLoading(false));
         }
     }, [data]);
-
-    useEffect(() => {
-        // @ts-ignore
-        error && toast.error(error.error);
-    }, [error]);
-
-    useEffect(() => {
-        dispatch(setGlobalLoading(isLoading));
-    }, [isLoading]);
 
     const setPositionValue = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedPositionId: number =
@@ -151,11 +150,87 @@ const SignUpForm: FC = () => {
         })
     }
 
-    const uploadUserPhoto = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files !== null) {
-            setFieldValue('photo', e.target?.files[0])
+    const uploadUserPhoto = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFieldValue('photo', e.target?.files[0]);
+
+            e.target.value = '';
         }
-    }
+    }, [userData]);
+
+    const addNewUser = useCallback(async () => {
+        if (userData) {
+            const {photo, position_id, phone, email, name} = userData;
+
+            const userBodyData = new FormData();
+            userBodyData.append('name', name);
+            userBodyData.append('email', email);
+            userBodyData.append('phone', phone);
+            userBodyData.append('position_id', position_id.toString());
+            userBodyData.append('photo', photo);
+
+
+            try {
+                const res = await registrationNewUser(userBodyData);
+
+                if ('data' in res) {
+                    toast.success('User successfully registered');
+                    setUserData(null);
+                }
+            } catch (e: any) {
+                console.error(e);
+                setUserData(null);
+
+                if (e.message) {
+                    toast.error(e.message);
+                }
+
+                toast.error(e);
+            }
+        }
+    }, [userData]);
+
+
+    useEffect(() => {
+        getUsersPositions();
+
+        dispatch(setGlobalLoading(false));
+    }, [data]);
+
+    useEffect(() => {
+        dispatch(setGlobalLoading(false));
+
+        if (fetchUsersPositionsError && 'data' in fetchUsersPositionsError) {
+            console.error("fetchUsersPositionsError", fetchUsersPositionsError);
+            toast.error(fetchUsersPositionsError.data.message);
+        }
+
+        if (createNewUserError && 'data' in createNewUserError) {
+            console.error("createNewUserError", createNewUserError);
+            toast.error(createNewUserError.data.message);
+        }
+    }, [fetchUsersPositionsError, createNewUserError]);
+
+    useEffect(() => {
+        if (isLoading) {
+            dispatch(setGlobalLoading(isLoading));
+        }
+
+        if (createNewUserLoading) {
+            dispatch(setGlobalLoading(createNewUserLoading));
+        }
+    }, [isLoading, createNewUserLoading]);
+
+    useEffect(() => {
+        addNewUser()
+            .then(() => {
+                if (!createNewUserError) {
+                    setUserData(null);
+                    resetForm();
+                    refetch();
+                }
+            })
+    }, [userData]);
 
 
     return (
@@ -221,6 +296,7 @@ const SignUpForm: FC = () => {
                     <input
                         id="upload_btn"
                         type="file"
+                        accept=".jpg, .jpeg"
                         onChange={uploadUserPhoto}
                         onClick={fileRef.current?.click()}
                     />

@@ -28,5 +28,5 @@ export interface IInitialInputValues {
     phone: string,
     position: string,
     position_id: number,
-    photo: string | IUploadPhotoFile,
+    photo: null | Blob | any,
 }

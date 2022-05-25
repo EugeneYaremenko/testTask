@@ -1,7 +1,9 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {ToastContainer} from "react-toastify";
 // redux
-import {useAppSelector} from "../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../hooks/redux";
+import {setAuthToken} from "../store/redux/reducers/GlobalSlice";
+import {authAPI} from "../store/redux/services/AuthService";
 // components
 import GlobalLoadingSpinner from "./GlobalLoadingSpinner";
 import Wrapper from "./Wrapper";
@@ -12,7 +14,16 @@ import SignUpForm from "./SignUpForm";
 
 
 const App: FC = () => {
+    const dispatch = useAppDispatch();
     const {globalLoading} = useAppSelector(state => state.globalSlice);
+    const {data: tokenData} = authAPI.useGetAuthTokenQuery();
+
+
+    useEffect(()=> {
+        if(tokenData){
+            dispatch(setAuthToken(tokenData.token))
+        }
+    }, [tokenData]);
 
     return (
         <>

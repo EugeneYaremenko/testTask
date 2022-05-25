@@ -1,3 +1,5 @@
+import {IUploadPhotoFile} from "./userSignUpForm";
+
 export interface IUser {
     id: string,
     name: string,
@@ -30,4 +32,18 @@ export interface IUserFetchResponse {
 export interface IUsersPositionsResponse {
     success: boolean,
     positions: IUserPosition[],
+}
+
+export interface IUserRegistrationRequest {
+    name: string,
+    email: string,
+    phone: string,
+    position_id: number | string,
+    photo: null | IUploadPhotoFile | any
+}
+
+export interface IUserRegistrationResponse {
+    success: boolean,
+    user_id: number,
+    message: string,
 }
