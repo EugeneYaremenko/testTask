@@ -1,4 +1,6 @@
 import {mixed, object, string} from 'yup';
+import {validatePhoto} from "../helpers/validatePhoto";
+
 
 const phoneSubValidationRule = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$/
 const photoSupportedFormat = ["image/jpg", "image/jpeg"];
@@ -29,4 +31,7 @@ export const signUpUserValidationSchema = object({
         .test("PHOTO_FORMAT",
             "File does not support. You must use .jpg or .jpeg",
             (value) => !value || (value && photoSupportedFormat.includes(value?.type)))
+        .test("PHOTO_WIDTH+HEIGHT",
+            "The selected image is too big. Please choose one with maximum dimensions of 70x70 px",
+            (value) => validatePhoto(value))
 });
