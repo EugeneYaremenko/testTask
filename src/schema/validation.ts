@@ -33,5 +33,5 @@ export const signUpUserValidationSchema = object({
             (value) => !value || (value && photoSupportedFormat.includes(value?.type)))
         .test("PHOTO_WIDTH+HEIGHT",
             "The selected image is too big. Please choose one with maximum dimensions of 70x70 px",
-            (value) => validatePhoto(value))
+            (value) => !value || (value && validatePhoto(value)))
 });
