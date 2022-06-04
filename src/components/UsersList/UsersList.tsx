@@ -63,7 +63,7 @@ const UsersList: FC = () => {
             <h2 id="users" className={styles.usersList__title}>Working with GET request</h2>
 
             <ul className={styles.usersList__cards}>
-                {sortedUsers.map((user) => <UserListItem key={user.registration_timestamp} user={user}/>)}
+                {sortedUsers.map((user) => <UserListItem key={user.id} user={user}/>)}
             </ul>
 
             {data?.total_pages !== usersPage && <Button onClick={fetchNextUsers}>Show more</Button>}

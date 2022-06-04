@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 // default img
 import defaultImg from '../../assets/svg/photo-cover.svg';
 // styles
@@ -12,20 +12,18 @@ interface IUserListItemProps {
 
 const UserListItem: FC<IUserListItemProps> = ({user}) => {
     const {photo, email, position, name, phone} = user;
+    const [errorPhoto, setErrorPhoto] = useState<boolean>(false);
 
-    const addDefaultProps = (e: any): void => {
-        e.target.src = defaultImg;
-        e.target.title = 'No avatar';
+
+    const addDefaultPhoto = () => {
+        setErrorPhoto(true);
     }
+
 
     return (
         <li className={styles.userItem}>
             <div className={styles.userItem__photo}>
-                {
-                    photo ?
-                        <img onError={addDefaultProps} src={photo} alt={name} title={name}/> :
-                        <img src={defaultImg} alt='No avatar' title='No avatar'/>
-                }
+                <img onError={addDefaultPhoto} src={errorPhoto ? defaultImg : photo} alt={name} title={name}/>
             </div>
 
             <div className={styles.userItemInfo}>
